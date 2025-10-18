@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This file was created with the aha Ansi HTML Adapter. https://github.com/theZiz/aha -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xml+xhtml; charset=UTF-8" />
+<title>Cppcheck Report for Catan</title>
+</head>
+<body style="color:white; background-color:black">
+<pre>
+Checking /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/bank.h ...
+1/25 files checked 0% done
+Checking /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/board.h ...
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/node.h:19:5: style: Class 'Node' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+    Node(int id);
+    ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/gui_node.h:13:5: style: Class 'GUI_Node' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+    GUI_Node(Node *node);
+    ^
+2/25 files checked 2% done
+Checking /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/color.h ...
+3/25 files checked 2% done
+Checking /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/dice.h ...
+4/25 files checked 2% done
+Checking /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/field.h ...
+5/25 files checked 5% done
+Checking /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/game.h ...
+6/25 files checked 7% done
+Checking /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/gui_node.h ...
+7/25 files checked 8% done
+Checking /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/gui_road.h ...
+8/25 files checked 9% done
+Checking /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/mainwindow.h ...
+9/25 files checked 11% done
+Checking /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/node.h ...
+10/25 files checked 12% done
+Checking /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/player.h ...
+11/25 files checked 15% done
+Checking /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/resourcetype.h ...
+12/25 files checked 15% done
+Checking /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/road.h ...
+13/25 files checked 15% done
+Checking /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/bank.cpp ...
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/bank.cpp:61:60: style:inconclusive: Function 'remove_resource_card' argument 2 names different: declaration 'num_card' definition 'num_cards'. [funcArgNamesDifferent]
+void Bank::remove_resource_card(ResourceType res_type, int num_cards) {
+                                                           ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/bank.h:26:49: note: Function 'remove_resource_card' argument 2 names different: declaration 'num_card' definition 'num_cards'.
+    void remove_resource_card(ResourceType, int num_card);
+                                                ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/bank.cpp:61:60: note: Function 'remove_resource_card' argument 2 names different: declaration 'num_card' definition 'num_cards'.
+void Bank::remove_resource_card(ResourceType res_type, int num_cards) {
+                                                           ^
+14/25 files checked 18% done
+Checking /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/board.cpp ...
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/board.cpp:9:8: warning: Member variable 'Board::m_tmp' is not initialized in the constructor. [uninitMemberVar]
+Board::Board(QObject *parent): QGraphicsScene(parent){}
+       ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/board.cpp:662:63: style: Consider using std::any_of algorithm instead of a raw loop. [useStlAlgorithm]
+            if(m_gui_nodes[neighbour-1]-&gt;get_is_house_built()){
+                                                              ^
+15/25 files checked 45% done
+Checking /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/dice.cpp ...
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/dice.cpp:6:7: warning: Member variable 'Dice::m_dice_is_rolled' is not initialized in the constructor. [uninitMemberVar]
+Dice::Dice():
+      ^
+16/25 files checked 46% done
+Checking /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/field.cpp ...
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/field.cpp:24:8: warning: Member variable 'Field::m_res_type' is not initialized in the constructor. [uninitMemberVar]
+Field::Field(int id, int number,
+       ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/field.cpp:24:8: warning: Member variable 'Field::m_right_edge' is not initialized in the constructor. [uninitMemberVar]
+Field::Field(int id, int number,
+       ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/field.cpp:24:8: warning: Member variable 'Field::m_left_edge' is not initialized in the constructor. [uninitMemberVar]
+Field::Field(int id, int number,
+       ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/field.cpp:24:8: warning: Member variable 'Field::m_bottom_right_edge' is not initialized in the constructor. [uninitMemberVar]
+Field::Field(int id, int number,
+       ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/field.cpp:24:8: warning: Member variable 'Field::m_bottom_left_edge' is not initialized in the constructor. [uninitMemberVar]
+Field::Field(int id, int number,
+       ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/field.cpp:24:8: warning: Member variable 'Field::m_up_right_edge' is not initialized in the constructor. [uninitMemberVar]
+Field::Field(int id, int number,
+       ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/field.cpp:24:8: warning: Member variable 'Field::m_up_left_edge' is not initialized in the constructor. [uninitMemberVar]
+Field::Field(int id, int number,
+       ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/field.cpp:24:8: warning: Member variable 'Field::m_is_robber_od_the_field' is not initialized in the constructor. [uninitMemberVar]
+Field::Field(int id, int number,
+       ^
+17/25 files checked 49% done
+Checking /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp ...
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:9:7: warning: Member variable 'Game::next_player' is not initialized in the constructor. [uninitMemberVar]
+Game::Game()
+      ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:9:7: warning: Member variable 'Game::m_can_build_house' is not initialized in the constructor. [uninitMemberVar]
+Game::Game()
+      ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:9:7: warning: Member variable 'Game::m_can_build_city' is not initialized in the constructor. [uninitMemberVar]
+Game::Game()
+      ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/game.h:49:10: style:inconclusive: Technically the member function 'Game::wonPlayer1' can be const. [functionConst]
+    bool wonPlayer1();
+         ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:84:12: note: Technically the member function 'Game::wonPlayer1' can be const.
+bool Game::wonPlayer1() {
+           ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/game.h:49:10: note: Technically the member function 'Game::wonPlayer1' can be const.
+    bool wonPlayer1();
+         ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/game.h:50:10: style:inconclusive: Technically the member function 'Game::wonPlayer2' can be const. [functionConst]
+    bool wonPlayer2();
+         ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:88:12: note: Technically the member function 'Game::wonPlayer2' can be const.
+bool Game::wonPlayer2() {
+           ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/game.h:50:10: note: Technically the member function 'Game::wonPlayer2' can be const.
+    bool wonPlayer2();
+         ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/game.h:51:10: style:inconclusive: Technically the member function 'Game::wonPlayer3' can be const. [functionConst]
+    bool wonPlayer3();
+         ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:92:12: note: Technically the member function 'Game::wonPlayer3' can be const.
+bool Game::wonPlayer3() {
+           ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/game.h:51:10: note: Technically the member function 'Game::wonPlayer3' can be const.
+    bool wonPlayer3();
+         ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/game.h:52:10: style:inconclusive: Technically the member function 'Game::wonPlayer4' can be const. [functionConst]
+    bool wonPlayer4();
+         ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:96:12: note: Technically the member function 'Game::wonPlayer4' can be const.
+bool Game::wonPlayer4() {
+           ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/game.h:52:10: note: Technically the member function 'Game::wonPlayer4' can be const.
+    bool wonPlayer4();
+         ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/game.h:60:10: style:inconclusive: Technically the member function 'Game::gameResult' can be const. [functionConst]
+    void gameResult();
+         ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:296:12: note: Technically the member function 'Game::gameResult' can be const.
+void Game::gameResult(){
+           ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/game.h:60:10: note: Technically the member function 'Game::gameResult' can be const.
+    void gameResult();
+         ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/game.h:63:10: style:inconclusive: Technically the member function 'Game::can_build_house' can be const. [functionConst]
+    bool can_build_house();
+         ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:341:12: note: Technically the member function 'Game::can_build_house' can be const.
+bool Game::can_build_house()
+           ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/game.h:63:10: note: Technically the member function 'Game::can_build_house' can be const.
+    bool can_build_house();
+         ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/game.h:64:10: style:inconclusive: Technically the member function 'Game::can_build_city' can be const. [functionConst]
+    bool can_build_city();
+         ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:350:12: note: Technically the member function 'Game::can_build_city' can be const.
+bool Game::can_build_city()
+           ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/game.h:64:10: note: Technically the member function 'Game::can_build_city' can be const.
+    bool can_build_city();
+         ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/game.h:65:10: style:inconclusive: Technically the member function 'Game::can_build_road' can be const. [functionConst]
+    bool can_build_road();
+         ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:366:12: note: Technically the member function 'Game::can_build_road' can be const.
+bool Game::can_build_road()
+           ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/game.h:65:10: note: Technically the member function 'Game::can_build_road' can be const.
+    bool can_build_road();
+         ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/game.h:66:10: style:inconclusive: Technically the member function 'Game::can_get_magic_card' can be const. [functionConst]
+    bool can_get_magic_card();
+         ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:357:12: note: Technically the member function 'Game::can_get_magic_card' can be const.
+bool Game::can_get_magic_card(){
+           ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/game.h:66:10: note: Technically the member function 'Game::can_get_magic_card' can be const.
+    bool can_get_magic_card();
+         ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/game.h:73:10: style:inconclusive: Technically the member function 'Game::can_trade_with_bank' can be const. [functionConst]
+    bool can_trade_with_bank(ResourceType player_resource, ResourceType bank_resource);
+         ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:180:12: note: Technically the member function 'Game::can_trade_with_bank' can be const.
+bool Game::can_trade_with_bank(ResourceType player_resource, ResourceType bank_resource)
+           ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/game.h:73:10: note: Technically the member function 'Game::can_trade_with_bank' can be const.
+    bool can_trade_with_bank(ResourceType player_resource, ResourceType bank_resource);
+         ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/game.h:77:10: style:inconclusive: Technically the member function 'Game::win' can be const. [functionConst]
+    bool win();
+         ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:100:12: note: Technically the member function 'Game::win' can be const.
+bool Game::win(){
+           ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/game.h:77:10: note: Technically the member function 'Game::win' can be const.
+    bool win();
+         ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:10:7: warning: Class 'Game' does not have a operator= which is recommended since it has dynamic memory/resource allocation(s). [noOperatorEq]
+    : m_player1(new Player(1, &quot;&quot;, Qt::blue, Qt::darkBlue))
+      ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:74:37: style:inconclusive: Function 'setCurrentPlayer' argument 1 names different: declaration 'currentPlayer' definition 'player'. [funcArgNamesDifferent]
+void Game::setCurrentPlayer(Player *player) {
+                                    ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/game.h:44:35: note: Function 'setCurrentPlayer' argument 1 names different: declaration 'currentPlayer' definition 'player'.
+    void setCurrentPlayer(Player *currentPlayer);
+                                  ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:74:37: note: Function 'setCurrentPlayer' argument 1 names different: declaration 'currentPlayer' definition 'player'.
+void Game::setCurrentPlayer(Player *player) {
+                                    ^
+18/25 files checked 62% done
+Checking /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/gui_node.cpp ...
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/gui_node.cpp:8:11: warning: Member variable 'GUI_Node::hasRoad' is not initialized in the constructor. [uninitMemberVar]
+GUI_Node::GUI_Node(Node *node)
+          ^
+19/25 files checked 65% done
+Checking /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/gui_road.cpp ...
+20/25 files checked 67% done
+Checking /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/main.cpp ...
+21/25 files checked 67% done
+Checking /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/mainwindow.cpp ...
+22/25 files checked 91% done
+Checking /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/node.cpp ...
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/node.cpp:4:16: style:inconclusive: Function 'Node' argument 1 names different: declaration 'id' definition 'm_id'. [funcArgNamesDifferent]
+Node::Node(int m_id)
+               ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/node.h:19:14: note: Function 'Node' argument 1 names different: declaration 'id' definition 'm_id'.
+    Node(int id);
+             ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/node.cpp:4:16: note: Function 'Node' argument 1 names different: declaration 'id' definition 'm_id'.
+Node::Node(int m_id)
+               ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/node.cpp:72:45: style: Parameter 'neighbours' can be declared with const [constParameter]
+void Node::set_all_neighbours(QVector&lt;int&gt; &amp;neighbours){
+                                            ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/node.cpp:74:21: style: Consider using std::copy algorithm instead of a raw loop. [useStlAlgorithm]
+       m_neighbours.push_back(i);
+                    ^
+23/25 files checked 92% done
+Checking /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp ...
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:5:9: warning:inconclusive: Member variable 'Player::m_id' is not initialized in the constructor. [uninitMemberVar]
+Player::Player()
+        ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:5:9: warning:inconclusive: Member variable 'Player::m_color' is not initialized in the constructor. [uninitMemberVar]
+Player::Player()
+        ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:5:9: warning:inconclusive: Member variable 'Player::m_victory_points' is not initialized in the constructor. [uninitMemberVar]
+Player::Player()
+        ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:5:9: warning:inconclusive: Member variable 'Player::m_num_of_roads' is not initialized in the constructor. [uninitMemberVar]
+Player::Player()
+        ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:5:9: warning:inconclusive: Member variable 'Player::m_num_of_houses' is not initialized in the constructor. [uninitMemberVar]
+Player::Player()
+        ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:5:9: warning:inconclusive: Member variable 'Player::m_num_of_cities' is not initialized in the constructor. [uninitMemberVar]
+Player::Player()
+        ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:5:9: warning:inconclusive: Member variable 'Player::m_num_of_allowed_houses' is not initialized in the constructor. [uninitMemberVar]
+Player::Player()
+        ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:5:9: warning:inconclusive: Member variable 'Player::m_num_of_allowed_cities' is not initialized in the constructor. [uninitMemberVar]
+Player::Player()
+        ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:5:9: warning:inconclusive: Member variable 'Player::m_num_of_allowed_roads' is not initialized in the constructor. [uninitMemberVar]
+Player::Player()
+        ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:5:9: warning:inconclusive: Member variable 'Player::m_num_of_wood' is not initialized in the constructor. [uninitMemberVar]
+Player::Player()
+        ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:5:9: warning:inconclusive: Member variable 'Player::m_num_of_brick' is not initialized in the constructor. [uninitMemberVar]
+Player::Player()
+        ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:5:9: warning:inconclusive: Member variable 'Player::m_num_of_wool' is not initialized in the constructor. [uninitMemberVar]
+Player::Player()
+        ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:5:9: warning:inconclusive: Member variable 'Player::m_num_of_wheat' is not initialized in the constructor. [uninitMemberVar]
+Player::Player()
+        ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:5:9: warning:inconclusive: Member variable 'Player::m_num_of_stone' is not initialized in the constructor. [uninitMemberVar]
+Player::Player()
+        ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:15:9: warning: Member variable 'Player::m_color' is not initialized in the constructor. [uninitMemberVar]
+Player::Player(int id, std::string name, QColor color, QColor color_c/*, Color color*treba ovo da se doradi*/)
+        ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/player.h:86:10: performance:inconclusive: Technically the member function 'Player::comparePlayers' can be static (but you may consider moving to unnamed namespace). [functionStatic]
+    bool comparePlayers(const Player* pl1, const Player* pl2);
+         ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:277:14: note: Technically the member function 'Player::comparePlayers' can be static (but you may consider moving to unnamed namespace).
+bool Player::comparePlayers(const Player* pl1, const Player* pl2) {
+             ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/player.h:86:10: note: Technically the member function 'Player::comparePlayers' can be static (but you may consider moving to unnamed namespace).
+    bool comparePlayers(const Player* pl1, const Player* pl2);
+         ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:15:36: performance: Function parameter 'name' should be passed by const reference. [passedByValue]
+Player::Player(int id, std::string name, QColor color, QColor color_c/*, Color color*treba ovo da se doradi*/)
+                                   ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:111:35: performance: Function parameter 'new_name' should be passed by const reference. [passedByValue]
+void Player::set_name(std::string new_name)
+                                  ^
+24/25 files checked 99% done
+Checking /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/road.cpp ...
+25/25 files checked 100% done
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:278:0: style: The function 'ChangeCurrentPlayer' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:277:0: style: The function 'comparePlayers' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:79:0: style: The function 'currentPlayerId' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:263:0: style: The function 'decrease_allowed_house_number' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:273:0: style: The function 'decrease_victory_point' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:296:0: style: The function 'gameResult' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/gui_node.h:24:0: style: The function 'getBrush' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/gui_road.cpp:46:0: style: The function 'getCenter' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/gui_road.h:20:0: style: The function 'getEnd' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/gui_road.h:19:0: style: The function 'getStart' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/bank.cpp:19:0: style: The function 'get_bank_resources' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/field.cpp:76:0: style: The function 'get_bottom_left_corner' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/field.cpp:100:0: style: The function 'get_bottom_left_edge' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/field.cpp:72:0: style: The function 'get_bottom_right_corner' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/field.cpp:96:0: style: The function 'get_bottom_right_edge' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/node.cpp:21:0: style: The function 'get_can_build' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:336:0: style: The function 'get_can_build_city' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:331:0: style: The function 'get_can_build_house' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/field.cpp:68:0: style: The function 'get_down_corner' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/field.cpp:60:0: style: The function 'get_edges' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/board.cpp:24:0: style: The function 'get_fields' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:99:0: style: The function 'get_first_turn' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/field.cpp:92:0: style: The function 'get_left_edge' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:62:0: style: The function 'get_num_of_allowed_cities' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:59:0: style: The function 'get_num_of_allowed_houses' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:65:0: style: The function 'get_num_of_allowed_roads' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:89:0: style: The function 'get_num_of_cities' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:86:0: style: The function 'get_num_of_houses' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:53:0: style: The function 'get_players' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/field.cpp:88:0: style: The function 'get_right_edge' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/field.cpp:64:0: style: The function 'get_up_corner' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/field.cpp:84:0: style: The function 'get_up_left_conrer' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/field.cpp:108:0: style: The function 'get_up_left_edge' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/field.cpp:80:0: style: The function 'get_up_right_corner' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/field.cpp:104:0: style: The function 'get_up_right_edge' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:212:0: style: The function 'give_resource_card_to_player' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/field.cpp:113:0: style: The function 'is_robber_on_the_field' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/board.cpp:622:0: style: The function 'mousePressEvent' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/mainwindow.cpp:165:0: style: The function 'on_pbBackToMenu_2_clicked' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/mainwindow.cpp:178:0: style: The function 'on_pbBackToMenu_3_clicked' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/mainwindow.cpp:162:0: style: The function 'on_pbBackToMenu_clicked' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/mainwindow.cpp:192:0: style: The function 'on_pbContinue_clicked' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/mainwindow.cpp:174:0: style: The function 'on_pbExit_clicked' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/mainwindow.cpp:170:0: style: The function 'on_pbHelp_clicked' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/mainwindow.cpp:258:0: style: The function 'on_pbRollDice_clicked' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/mainwindow.cpp:158:0: style: The function 'on_pbSettings_clicked' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/mainwindow.cpp:154:0: style: The function 'on_pbStartGame_clicked' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/mainwindow.cpp:595:0: style: The function 'on_pbTrade_clicked' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/mainwindow.cpp:335:0: style: The function 'on_pb_House_clicked' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/mainwindow.cpp:502:0: style: The function 'on_pb_MagicCard_clicked' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/mainwindow.cpp:402:0: style: The function 'on_pb_Road_clicked' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/mainwindow.cpp:468:0: style: The function 'on_pb_Settlement_clicked' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/mainwindow.cpp:576:0: style: The function 'on_pushButton_clicked' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/mainwindow.cpp:329:0: style: The function 'on_rbOFF_toggled' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/mainwindow.cpp:323:0: style: The function 'on_rbON_toggled' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/gui_node.cpp:85:0: style: The function 'paint' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/node.cpp:66:0: style: The function 'place_city' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/node.cpp:61:0: style: The function 'place_house' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/bank.cpp:81:0: style: The function 'print_bank_content' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:71:0: style: The function 'setBank' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/gui_node.cpp:62:0: style: The function 'setNode' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:59:0: style: The function 'setPlayer1' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:62:0: style: The function 'setPlayer2' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:65:0: style: The function 'setPlayer3' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:68:0: style: The function 'setPlayer4' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/node.cpp:48:0: style: The function 'set_can_build' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:326:0: style: The function 'set_can_build_city' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:321:0: style: The function 'set_can_build_house' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp:208:0: style: The function 'set_id' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/field.cpp:118:0: style: The function 'set_robber_on_the_field' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/gui_node.cpp:149:0: style: The function 'type' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:84:0: style: The function 'wonPlayer1' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:88:0: style: The function 'wonPlayer2' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:92:0: style: The function 'wonPlayer3' is never used. [unusedFunction]
+
+^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:96:0: style: The function 'wonPlayer4' is never used. [unusedFunction]
+
+^
+nofile:0:0: information: Cppcheck cannot find all the include files (use --check-config for details) [missingInclude]
+
+</pre>
+</body>
+</html>
