@@ -1,0 +1,9 @@
+1 warning generated.
+1 warning generated.
+1 warning generated.
+1 warning generated.
+1 warning generated.
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:298:15: warning: Value stored to 'players' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+      Player* players[] = { m_player1,
+              ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:298:15: note: Value stored to 'players' during its initialization is never read

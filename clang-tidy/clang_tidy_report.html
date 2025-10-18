@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This file was created with the aha Ansi HTML Adapter. https://github.com/theZiz/aha -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xml+xhtml; charset=UTF-8" />
+<title>Clang-Tidy Report for Catan</title>
+</head>
+<body style="color:white; background-color:black">
+<pre>
+1 warning generated.
+1 warning generated.
+1 warning generated.
+1 warning generated.
+1 warning generated.
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:298:15: warning: Value stored to 'players' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+      Player* players[] = { m_player1,
+              ^
+/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp:298:15: note: Value stored to 'players' during its initialization is never read
+</pre>
+</body>
+</html>
