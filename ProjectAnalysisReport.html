@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Izve&scaron;taj analize projekta</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="izveštaj-analize-projekta">Izveštaj analize projekta</h1>
+<h2 id="clang-tidy">Clang-Tidy</h2>
+<p><strong>Clang-Tidy</strong> predstavlja jedan od <em>Clang</em> zasnovanih alata koji obavlja statičku analizu koda (vrši analiziranje izvornog koda bez njegovog izvršavanja sa ciljem pronalaženja grešaka, poboljšanja kvaliteta koda i ispravljanja neoptimalno napisanih delova koda). <strong>Clang-Tidy</strong> je <em>C++</em> linter alati koji analizira kod i pronalazi programske i stilske greške unutar koda.</p>
+<hr>
+<h3 id="instalacija-clang-tidy-i-pokretanje-analize">Instalacija Clang-Tidy i pokretanje analize</h3>
+<p>Za statičku analizu C++ koda koristimo <strong>Clang-Tidy</strong>, koji se može instalirati na Linux sistemima pomoću sledeće komande:</p>
+<pre><code class="language-bash">sudo apt update &amp;&amp; sudo apt install clang-tidy
+</code></pre>
+<p>Nakon instalacije, potrebno je kreirati skriptu <code>run_clang_tidy.sh</code> koja automatski pokreće analizu nad svim <code>.cpp</code> fajlovima u projektu. Skripta definiše koren projekta, build direktorijum, kao i putanje za tekstualni i HTML izveštaj, generiše <code>compile_commands.json</code> koristeći CMake i potom pokreće Clang-Tidy nad izvornim fajlovima. Takođe, omogućava opcionalno generisanje HTML izveštaja pomoću alata <code>aha</code>.</p>
+<p><strong>AHA</strong> (ANSI HTML Adapter) je alat koji omogućava konverziju ANSI obojenog izlaza iz terminala u HTML izveštaje. U kontekstu analize softvera, može se koristiti za generisanje preglednih HTML izveštaja iz alata koji daju obojen izlaz u terminalu, kao što su <code>flawfinder</code>, <code>cppcheck</code> ili <code>clang-tidy</code>.</p>
+<p>Na Linux sistemima, <strong>AHA</strong> se može instalirati komandom:</p>
+<pre><code class="language-bash">sudo apt update &amp;&amp; sudo apt install aha
+</code></pre>
+<p><code>run_clang_tidy.sh</code></p>
+<pre><code class="language-bash"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-built_in">set</span> -e
+
+<span class="hljs-comment"># === KONFIGURACIJA ===</span>
+PROJECT_ROOT=<span class="hljs-string">&quot;<span class="hljs-subst">$(cd <span class="hljs-string">&quot;<span class="hljs-subst">$(dirname <span class="hljs-string">&quot;<span class="hljs-variable">${BASH_SOURCE[0]}</span>&quot;</span>)</span>/../catan/src&quot;</span> &amp;&amp; pwd)</span>&quot;</span>
+BUILD_DIR=<span class="hljs-string">&quot;<span class="hljs-variable">$PROJECT_ROOT</span>/build&quot;</span>
+OUTPUT_DIR=<span class="hljs-string">&quot;<span class="hljs-subst">$(cd <span class="hljs-string">&quot;<span class="hljs-subst">$(dirname <span class="hljs-string">&quot;<span class="hljs-variable">${BASH_SOURCE[0]}</span>&quot;</span>)</span>&quot;</span> &amp;&amp; pwd)</span>&quot;</span>
+LOG_FILE=<span class="hljs-string">&quot;<span class="hljs-variable">$OUTPUT_DIR</span>/clang_tidy_results.txt&quot;</span>
+HTML_FILE=<span class="hljs-string">&quot;<span class="hljs-variable">$OUTPUT_DIR</span>/clang_tidy_report.html&quot;</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;=====================================================&quot;</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Pokrece se Clang-Tidy analizu projekta&quot;</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;=====================================================&quot;</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Koren projekta: <span class="hljs-variable">$PROJECT_ROOT</span>&quot;</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Rezultati ce se nalaziti u: <span class="hljs-variable">$OUTPUT_DIR</span>&quot;</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;&quot;</span>
+
+
+<span class="hljs-keyword">if</span> [ ! -d <span class="hljs-string">&quot;<span class="hljs-variable">$BUILD_DIR</span>&quot;</span> ]; <span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Kreira se build direktorijum ukoliko ne postoji...&quot;</span>
+    <span class="hljs-built_in">mkdir</span> -p <span class="hljs-string">&quot;<span class="hljs-variable">$BUILD_DIR</span>&quot;</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Generise se compile_commands.json pomocu CMake-a...&quot;</span>
+cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -S <span class="hljs-string">&quot;<span class="hljs-variable">$PROJECT_ROOT</span>&quot;</span> -B <span class="hljs-string">&quot;<span class="hljs-variable">$BUILD_DIR</span>&quot;</span> &gt; /dev/null
+
+<span class="hljs-keyword">if</span> [ ! -f <span class="hljs-string">&quot;<span class="hljs-variable">$BUILD_DIR</span>/compile_commands.json&quot;</span> ]; <span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;[ERROR] compile_commands.json nije pronadjen u <span class="hljs-variable">$BUILD_DIR</span>!&quot;</span>
+    <span class="hljs-built_in">exit</span> 1
+<span class="hljs-keyword">fi</span>
+
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Pokrece se Clang-Tidy nad svim .cpp fajlovima...&quot;</span>
+find <span class="hljs-string">&quot;<span class="hljs-variable">$PROJECT_ROOT</span>/sources&quot;</span> -name <span class="hljs-string">&quot;*.cpp&quot;</span> | xargs clang-tidy -p <span class="hljs-string">&quot;<span class="hljs-variable">$BUILD_DIR</span>&quot;</span> &gt; <span class="hljs-string">&quot;<span class="hljs-variable">$LOG_FILE</span>&quot;</span> 2&gt;&amp;1 || <span class="hljs-literal">true</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Analiza je zavrsena. Rezultati: <span class="hljs-variable">$LOG_FILE</span>&quot;</span>
+
+
+<span class="hljs-keyword">if</span> <span class="hljs-built_in">command</span> -v aha &gt;/dev/null 2&gt;&amp;1; <span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">cat</span> <span class="hljs-string">&quot;<span class="hljs-variable">$LOG_FILE</span>&quot;</span> | aha --black --title <span class="hljs-string">&quot;Clang-Tidy Report for Catan&quot;</span> &gt; <span class="hljs-string">&quot;<span class="hljs-variable">$HTML_FILE</span>&quot;</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot; HTML izvestaj je generisan: <span class="hljs-variable">$HTML_FILE</span>&quot;</span>
+<span class="hljs-keyword">else</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot; &#x27;aha&#x27; nije instaliran. HTML izvestaj nije generisan.&quot;</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;      Instaliraj alat aha pomocu: sudo apt install aha&quot;</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;&quot;</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;=====================================================&quot;</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Analiza je uspesno zavrsena!&quot;</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot; - Tekstualni izvestaj se nalazi u: <span class="hljs-variable">$LOG_FILE</span>&quot;</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot; - HTML izvestaj: <span class="hljs-variable">$HTML_FILE</span>&quot;</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;=====================================================&quot;</span>
+</code></pre>
+<p>Pre nego što se skripta pokrene, potrebno joj je dodeliti izvršna prava:</p>
+<pre><code class="language-bash"><span class="hljs-built_in">chmod</span> +x run_clang_tidy.sh
+</code></pre>
+<p>Skripta se pokreće komandom iz <code>clang-tidy</code> foldera:</p>
+<pre><code class="language-bash">./run_clang_tidy.sh
+</code></pre>
+<p>Rezultati se beleže u <code>clang_tidy_results.txt</code>, a može se generisati i  HTML izveštaj, radi bolje preglednosti i ti rezultati ce biti sačuvani  u <code>clang_tidy_report.html</code>. Rezultati se mogu videti pozivanjem komande <code>cat clang_tidy_results.txt</code> u terminalu ili pokretanjem u browseru putanje koju dobijemo kao rezultat sktipte.</p>
+<p><img src="file:////home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/clang-tidy/clang_tidy_results.png" alt="img"></p>
+<hr>
+<h3 id="analiza-dobijenih-rezultata">Analiza dobijenih rezultata</h3>
+<p><img src="file:////home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/clang-tidy/clang_tidy_html_report.png" alt="img"></p>
+<p>Nakon analize generisanog <code>clang_tidy_report.html</code>, Clang-Tidy je detektovao jedan <em>warning</em> da promenljiva/niz <code>players</code> dobija vrednost prilikom inicijalizacije, ali se ta vrednost nigde ne koristi. Ovo je tzv. <em>dead store</em> ili mrtvi kod. Uklanjanjem ovog niza, <em>warning</em> će nestati.</p>
+<ul>
+<li><strong>Lokacija problema:</strong><br>
+Fajl: <code>game.cpp</code><br>
+Linija: 298</li>
+</ul>
+<hr>
+<h2 id="lizard">Lizard</h2>
+<p><strong>Lizard</strong> je alat za analizu kompleksnosti koda, koji omogućava detekciju funkcija sa visokim stepenom složenosti. Analizom koda, Lizard može da izračuna nekoliko metrika za svaku funkciju, uključujući:</p>
+<ul>
+<li><strong>NLOC (Number of Lines of Code)</strong> – broj linija koda u funkciji</li>
+<li><strong>CCN (Cyclomatic Complexity Number)</strong> – ciklomatska kompleksnost funkcije</li>
+<li><strong>Token</strong> – broj tokena u funkciji</li>
+<li><strong>PARAM</strong> – broj parametara funkcije</li>
+<li><strong>Length</strong> – broj linija u opsegu funkcije</li>
+<li><strong>Location</strong> – fajl i linije u kojima se funkcija nalazi</li>
+</ul>
+<p>Ove metrike nam pomažu identifikuju delove koda koji mogu biti teško razumljivi, održivi ili potencijalno skloni greškama.</p>
+<hr>
+<h2 id="instalacija-lizard-a-i-pokretanje-analize">Instalacija Lizard-a i pokretanje analize</h2>
+<p><strong>Lizard</strong> je Python alat i može se instalirati pomoću pip-a:</p>
+<pre><code class="language-bash">pip install lizard
+</code></pre>
+<p>Nakon instalacije, kreiramo skriptu <code>run_lizard.sh</code> koja automatski pokreće analizu nad svim izvornim fajlovima projekta i generiše HTML izveštaj.</p>
+<p><code>run_lizard.sh</code></p>
+<pre><code class="language-bash"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-built_in">set</span> -e
+
+PROJECT_ROOT=<span class="hljs-string">&quot;<span class="hljs-subst">$(cd <span class="hljs-string">&quot;<span class="hljs-subst">$(dirname <span class="hljs-string">&quot;<span class="hljs-variable">${BASH_SOURCE[0]}</span>&quot;</span>)</span>/../catan/src&quot;</span> &amp;&amp; pwd)</span>&quot;</span>
+OUTPUT_DIR=<span class="hljs-string">&quot;<span class="hljs-subst">$(cd <span class="hljs-string">&quot;<span class="hljs-subst">$(dirname <span class="hljs-string">&quot;<span class="hljs-variable">${BASH_SOURCE[0]}</span>&quot;</span>)</span>&quot;</span> &amp;&amp; pwd)</span>&quot;</span>
+REPORT_FILE=<span class="hljs-string">&quot;<span class="hljs-variable">$OUTPUT_DIR</span>/lizard_report.html&quot;</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;============================================&quot;</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Pokrece se Lizard analiza kompleksnosti&quot;</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;============================================&quot;</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Koren projekta: <span class="hljs-variable">$PROJECT_ROOT</span>&quot;</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Izvestaj ce biti sacuvan u: <span class="hljs-variable">$REPORT_FILE</span>&quot;</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;&quot;</span>
+
+<span class="hljs-keyword">if</span> ! <span class="hljs-built_in">command</span> -v lizard &amp;&gt; /dev/null; <span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Greska: Lizard nije instaliran.&quot;</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Instaliraj ga komandom: pip install lizard&quot;</span>
+    <span class="hljs-built_in">exit</span> 1
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Pokrece se Lizard analiza...&quot;</span>
+lizard <span class="hljs-string">&quot;<span class="hljs-variable">$PROJECT_ROOT</span>&quot;</span> | aha --black --title <span class="hljs-string">&quot;Lizard Complexity Report&quot;</span> &gt; <span class="hljs-string">&quot;<span class="hljs-variable">$REPORT_FILE</span>&quot;</span>
+
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;&quot;</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Analiza je zavrsena.&quot;</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Izvestaj se nalazi u: <span class="hljs-variable">$REPORT_FILE</span>&quot;</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Mozete ga otvoriti u browseru: <span class="hljs-variable">$REPORT_FILE</span>&quot;</span>
+</code></pre>
+<p>Pre pokretanja skripte, potrebno je dodeliti izvršna prava:</p>
+<pre><code class="language-bash"><span class="hljs-built_in">chmod</span> +x run_lizard.sh
+</code></pre>
+<p>Skripta se pokreće komandom iz <code>lizard</code> foldera:</p>
+<pre><code class="language-bash">./run_lizard.sh
+</code></pre>
+<hr>
+<h3 id="analiza-dobijenih-rezultata-1">Analiza dobijenih rezultata</h3>
+<p>Rezultati analize se čuvaju u <code>lizard_report.html</code> i mogu se otvoriti u browseru radi preglednosti. Ovde ću prikazati delove tog izveštaja:</p>
+<p><img src="file:////home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/lizard/lizard_report_1.png" alt="img"></p>
+<p><img src="file:////home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/lizard/lizard_report_2.png" alt="img"></p>
+<p><img src="file:////home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/lizard/lizard_report_3.png" alt="img"></p>
+<p>Ono sto mozemo zakljuciti iz ovog izvestaja prateci metrike:</p>
+<ol>
+<li>Najveci broj linija koda i broj funkcija imaju sledeci fajlovi:</li>
+</ol>
+<p>game.cpp: 277 NLOC, 40 funkcija, gde je prosečna kompleksnost (CCN) 2.2</p>
+<p>board.cpp: 557 NLOC, 14 funkcija, gde je prosečna CCN 2.9</p>
+<p>mainwindow.cpp: 480 NLOC, 34 funkcije, gde je prosečna CCN 2.6</p>
+<ol start="2">
+<li>Fajlovi sa značajnom prosečnom dužinom funkcije ili kompleksnošću su:</li>
+</ol>
+<p>mainwindow.cpp: prosečna length funkcije 101.6 tokena, CCN 2.6</p>
+<p>player.cpp: prosečna length funkcije 23.1 tokena, CCN 1.4</p>
+<p>board.cpp: prosečna length funkcije 379.6 tokena (izuzetno dugačka funkcija), CCN 2.9
+3.</p>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>
