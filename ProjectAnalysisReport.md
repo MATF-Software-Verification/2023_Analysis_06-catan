@@ -425,3 +425,115 @@ Ispravljanje navedenih problema bi doprinelo:
 - Smanjenju potencijalnih grešaka pri izvršavnju programa
 
 
+---
+
+## Flawfinder
+
+
+**Flawfinder** je alat za statičku bezbednosnu analizu C/C++ koda koji traži poznate rizične funkcije i obrasce (npr. `strcpy`, `sprintf`, `srand`, itd.) i ocenjuje ih po nivou rizika. Alat daje brz pregled potencijalnih sigurnosnih problema koje je potrebno ručno proveriti i proceniti.
+
+---
+
+
+### Instalacija Flawfinder-a i pokretanje analze
+
+Na Linux sistemima Flawfinder se može instalirati pomoću:
+
+```bash
+sudo apt update && sudo apt install flawfinder
+```
+
+Nakon instalacije, potrebno je kreirati skriptu `run_flawfinder.sh` koja automatski pokreće analizu u projektu nad `PROJECT_ROOT`-om. Skripta omogućava opcionalno generisanje HTML izveštaja `flawfinder_result.html`.
+
+`run_flawfinder.sh`
+
+```bash
+#!/bin/bash
+set -e
+
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../catan/src" && pwd)"
+OUTPUT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPORT_FILE="$OUTPUT_DIR/flawfinder_result.html"
+
+
+echo "============================================"
+echo "Pokrece se Flawfinder analiza projekta"
+echo "============================================"
+echo "Koren projekta: $PROJECT_ROOT"
+echo "Rezultati ce se nalaziti u: $REPORT_FILE"
+echo ""
+
+
+if ! command -v flawfinder &> /dev/null; then
+    echo "Greska: Flawfinder nije instaliran."
+    echo "Instalirati Flawfinder: sudo apt install flawfinder"
+    exit 1
+fi
+
+echo "Pokrece se flawfinder..."
+flawfinder --html "$PROJECT_ROOT" > "$REPORT_FILE"
+
+echo ""
+echo "Analiza je zavrsena."
+echo "Izvestaj se nalazi u: $REPORT_FILE"
+echo "Izvestaj se moze otvoriti u browseru komandom: xdg-open $REPORT_FILE"
+```
+
+Pre nego što se skripta pokrene, potrebno joj je dodeliti izvršna prava:
+```bash
+chmod +x run_flawfinder.sh
+```
+Skripta se pokreće komandom iz `flawfinder` foldera:
+```bash
+./run_flawfinder.sh
+```
+
+Generise se `flawfinder_result.html` i rezultati izvestaja se mogu videti pokretanjem putanje u browseru, koju dobijemo kao rezultat sktipte `run_flawfinder.sh`.
+
+![img](flawfinder/terminal_output.png)
+
+
+---
+### Analiza dobijenih rezultata
+
+`flawfinder_result.html`
+
+![img](flawfinder/flawfinder_report_1.png)
+![img](flawfinder/flawfinder_report_2.png)
+
+
+Neki od primera iz izveštaja:
+
+* > `/home/luka/.../catan/src/sources/dice.cpp:48: [3] (random)`  
+  **srand**: Ova funkcija nije dovoljno sigurna za generisanje nasumičnih vrednosti koje se koriste u bezbednosno osetljivim funkcijama (CWE-327).  
+  **Komentar:** Korišćenje `srand`/`rand` za bezbednosne namene nije preporučljivo  
+
+* > `/home/luka/.../catan/src/build/.../moc_board.cpp:25: [2] (buffer)`  
+  **char**: Statički alocirani nizovi mogu biti nepravilno ograničeni i dovesti do prelivanja (CWE-119/CWE-120).  
+  **Komentar:** Ove poruke se javljaju u auto-generisanim `moc_*.cpp` fajlovima i iako su ti fajlovi generisani, vredi proveriti ulaze i koristiti bezbednije funkcije ili se osigurati da imamo dovoljno velik buffer.
+
+* > `/home/luka/.../catan/src/build/.../moc_gui_node.cpp:25: [2] (buffer)`  
+  **Komentar:** Isto upozorenje za potencijalno prelivanje bafera.
+
+* > `/home/luka/.../catan/src/build/.../moc_gui_road.cpp:25: [2] (buffer)`  
+  **Komentar:** Isto upozorenje za potencijalno prelivanje bafera.
+
+* > `/home/luka/.../catan/src/build/.../moc_mainwindow.cpp:25: [2] (buffer)`  
+  **Komentar:** Isto upozorenje za potencijalno prelivanje bafera.
+
+#### Statistika iz izveštaja: ####
+
+- **Hits (ukupno detektovanih "hitova")**: 5  - prikazanih iznad
+- **Lines analyzed**: 2,186,390 (vreme analize ~158 s)  
+- **Physical Source LInes of code**: 2,184,727  
+
+Hits po nivou rizika (Hits@level):
+
+- level 2: 4  
+- level 3: 1  
+- ostali nivoi: 0  
+
+ Svaki "hit" ne znači stvarnu ranjivost — Flawfinder daje indikacije koje ipak treba ručno pregledati i razmotriti, ali Ispravljanje navedenih problema i primena preporuka iz izveštaja bi značajno doprinelo poboljšanju bezbednosti i robusnosti projekta.
+
+---
+
