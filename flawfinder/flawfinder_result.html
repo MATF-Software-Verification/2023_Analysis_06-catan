@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf8">
+<title>Flawfinder Results</title>
+<meta name="author" content="David A. Wheeler">
+<meta name="keywords" lang="en" content="flawfinder results, security scan">
+</head>
+<body>
+<h1>Flawfinder Results</h1>
+Here are the security scan results from
+<a href="https://dwheeler.com/flawfinder">Flawfinder version 2.0.10</a>,
+(C) 2001-2019 <a href="https://dwheeler.com">David A. Wheeler</a>.
+Number of rules (primarily dangerous function names) in C/C++ ruleset: 223
+<p>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/resourcetype.h <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/gui_node.h <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/dice.h <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/gui_road.h <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/color.h <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/road.h <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/player.h <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/mainwindow.h <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/board.h <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/node.h <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/field.h <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/bank.h <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/headers/game.h <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/build/CMakeFiles/3.16.3/CompilerIdCXX/CMakeCXXCompilerId.cpp <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/build/Catan_autogen/moc_predefs.h <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/build/Catan_autogen/mocs_compilation.cpp <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/build/Catan_autogen/K6S233IZAZ/moc_board.cpp <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/build/Catan_autogen/K6S233IZAZ/moc_gui_road.cpp <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/build/Catan_autogen/K6S233IZAZ/moc_mainwindow.cpp <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/build/Catan_autogen/K6S233IZAZ/moc_gui_node.cpp <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/build/qrc_resource.cpp <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/build/ui_mainwindow.h <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/mainwindow.cpp <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/gui_road.cpp <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/node.cpp <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/dice.cpp <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/main.cpp <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/road.cpp <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/bank.cpp <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/game.cpp <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/field.cpp <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/gui_node.cpp <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/player.cpp <br>
+Examining /home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/board.cpp <br>
+
+<h2>Final Results</h2>
+<ul>
+<li>/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/sources/dice.cpp:48: <b>  [3] </b> (random) <i> srand:
+  This function is not sufficiently random for security-related functions
+  such as key and nonce creation (<a
+  href="https://cwe.mitre.org/data/definitions/327.html">CWE-327</a>). Use a
+  more secure technique for acquiring random values. </i>
+<li>/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/build/Catan_autogen/K6S233IZAZ/moc_board.cpp:25: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<li>/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/build/Catan_autogen/K6S233IZAZ/moc_gui_node.cpp:25: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<li>/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/build/Catan_autogen/K6S233IZAZ/moc_gui_road.cpp:25: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<li>/home/luka/Desktop/vs-projekat/2023_Analysis_06-catan/catan/src/build/Catan_autogen/K6S233IZAZ/moc_mainwindow.cpp:25: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+</ul>
+<h2>Analysis Summary</h2>
+<p>
+Hits = 5
+<br>
+Lines analyzed = 2186390 in approximately 158.10 seconds (13829 lines/second)
+<br>
+Physical Source Lines of Code (SLOC) = 2184727
+<br>
+Hits@level = [0]   0 [1]   0 [2]   4 [3]   1 [4]   0 [5]   0 <br>
+Hits@level+ = [0+]   5 [1+]   5 [2+]   5 [3+]   1 [4+]   0 [5+]   0 <br>
+Hits/KSLOC@level+ = [0+] 0.00228862 [1+] 0.00228862 [2+] 0.00228862 [3+] 0.000457723 [4+]   0 [5+]   0 <br>
+Dot directories skipped = 1 (--followdotdir overrides)
+<br>
+Minimum risk level = 1
+<br>
+Not every hit is necessarily a security vulnerability.
+<br>
+There may be other security vulnerabilities; review your code!
+<br>
+See '<a href="https://dwheeler.com/secure-programs">Secure Programming HOWTO</a>'
+(<a href="https://dwheeler.com/secure-programs">https://dwheeler.com/secure-programs</a>) for more information.
+</body>
+</html>
