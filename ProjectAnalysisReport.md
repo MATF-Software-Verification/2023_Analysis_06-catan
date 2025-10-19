@@ -122,9 +122,9 @@ Rezultati se beleže u `clang_tidy_results.txt`, a može se generisati i  HTML i
 
 Ove metrike nam pomažu identifikuju delove koda koji mogu biti teško razumljivi, održivi ili potencijalno skloni greškama.
 
-###Preporučeni pragovi za metrike koda
+### Preporučeni pragovi za metrike koda
 
-Preporučeni pragovi za osnovne metrike koje se prate:
+
 
 | Metrika                     | Opis                                                                 | Preporučeni prag                  | Komentar |
 |------------------------------|----------------------------------------------------------------------|----------------------------------|----------|
@@ -270,3 +270,158 @@ Većina header fajlova (resourcetype.h, dice.h, player.h, board.h itd.):
  Sve metrike su unutar preporučenih vrednosti, što pokazuje kvalitetno strukturiran i pregledan kod.
 
 ---
+
+## Cppcheck
+
+**Cppcheck** je alat koji se koristi za statičku analizu C i C++ koda. Osnovna uloga je otkrivanje potencijalnih problema pre pokretanja programa. Detektuje curenja memorije, neinicijalizovane promenljive, potencijalne probleme sa pokazivačima...
+
+
+---
+
+### Instalacija Cppcheck-a i pokretanje analize
+
+Na Linux sistemima, Cppcheck se može instalirati komandom:
+
+```bash
+sudo apt update && sudo apt install cppcheck
+```
+
+Nakon instalacije, kreiramo skriptu `run_cppcheck.sh` koja automatski pokreće analizu nad svim `*.cpp` i `*.h` fajlovima projekta (osim `moc_*.cpp` zbog slozenosti poziva) i generiše HTML izveštaj pomocu alata `aha`.
+
+`run_cppcheck.sh`
+
+```bash
+
+#!/bin/bash
+set -e
+
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../catan/src" && pwd)"
+OUTPUT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+HTML_DIR="$OUTPUT_DIR/html_report"
+
+echo "============================================"
+echo "Pokrece se Cppcheck analiza projekta"
+echo "============================================"
+echo "Koren projekta: $PROJECT_ROOT"
+echo "Rezultati ce se nalaziti u: $HTML_DIR"
+echo ""
+
+mkdir -p "$HTML_DIR"
+
+echo "Pokrece se cppcheck nad .cpp i .h fajlovima..."
+
+find "$PROJECT_ROOT" \( -path "$PROJECT_ROOT/build" -o -name "moc_*.cpp" \) -prune -o \
+    \( -name "*.cpp" -o -name "*.h" \) -print | \
+    xargs cppcheck --enable=all --std=c++17 --language=c++ --inconclusive 2>&1 | \
+    aha --black --title "Cppcheck Report for Catan" > "$HTML_DIR/cppcheck_report.html"
+
+echo "Analiza je zavrsena. Otvoriti  $HTML_DIR/cppcheck_report.html u browseru kako bi se videli rezultati"
+
+```
+
+
+Pre pokretanja skripte, potrebno je dodeliti izvršna prava:
+```bash
+chmod +x run_cppcheck.sh
+```
+Skripta se pokreće komandom iz `cppcheck` foldera:
+```bash
+./run_cppcheck.sh
+```
+
+Generise se `html/cppcheck_report.html` se mogu videti pokretanjem putanje u browseru koju dobijemo kao rezultat sktipte `run_cppcheck.sh`.
+
+![img](cppcheck/terminal_output.png)
+
+### Analiza dobijenih rezultata
+
+#### Objašnjenje parametra `--enable=all` u Cppcheck analizi
+
+Opcija `--enable=all` aktivirasve dostupne grupe provera u okviru alata.  
+Koristi se kada želimo najdetaljniju statičku analizu C++ koda, uključujući i upozorenja koja nisu uvek kritična, ali mogu ukazati na loše prakse, neefikasan kod ili potencijalne greške.
+
+---
+Kategorije koje obuhvata:
+
+1. **`warning`**  
+   - Detektuje uobičajene potencijalne greške
+
+
+2. **`style`**  
+   - Analizira stil pisanja koda i dobre prakse
+  
+
+3. **`performance`**  
+   - Ukazuje na neefikasne konstrukcije
+ 
+
+4. **`portability`**  
+   - Proverava prenosivost koda između različitih platformi
+
+5. **`information`**  
+    - Daje korisne informacije koje nisu greške:
+ 
+
+6. **`unusedFunction`**  
+   - Pronalazi funkcije koje su definisane, ali se nigde ne pozivaju.
+
+7. **`missingInclude`**  
+   - Prikazuje nedostajuće `#include` direktive koje mogu izazvati greške pri kompilaciji.
+
+8. **`experimental`**  
+   - Aktivira eksperimentalne provere koje nisu u potpunosti stabilne, ali mogu otkriti dodatne probleme u kodu.
+
+---
+
+S obzirom da smo koristili opciju `--enable=all` pri pozivu ovog alata, sam report je veceg obima, ali veoma koristan ukoliko zelimo da unapredimo nas projekat.
+
+Neki od primera iz izveštaja:
+
+* > catan/src/sources/field.cpp:15:8: warning: Member variable 'Field::m_res_type' is not initialized in the constructor. [uninitMemberVar]  
+  Field::Field(int id, int number)
+
+   **Komentar:** Alat upozorava da član `m_res_type` klase `Field` nije inicijalizovan u konstruktoru, što može dovesti do nepredvidivog ponašanja.
+
+---
+
+* > catan/src/sources/game.cpp:298:15: style: Variable 'players' is assigned during initialization but never used. [unusedVariable]  
+  Player* players[] = { m_player1, m_player2, m_player3, m_player4 };
+
+   **Komentar:** Alat detektuje da se promenljiva `players` inicijalizuje, ali se nikada ne koristi — a ovo upozorenje smo vec dobili primenom alata `clang-tidy`.
+
+---
+
+* > catan/src/sources/player.cpp:45:0: performance: Parameter 'name' should be passed by const reference. [passedByValue]  
+  Player::Player(std::string name)
+
+   **Komentar:** Alat predlaže da se parametar `name` prosledi kao `const std::string&` radi optimizacije performansi i radi izbegavanja nepotrebnog kopiranja.
+
+---
+
+* > catan/src/sources/node.cpp:12:3: style: Member variable 'Node::m_id' is not initialized in the constructor. [uninitMemberVar]  
+  Node::Node(int id)
+
+   **Komentar:** Alat upozorava da nije inicijalizovan član `m_id` klase `Node` i preporučuje se dodavanje u listu inicijalizatora.
+
+---
+
+
+ ![img](cppcheck/cppcheck_report_1.png)
+ ![img](cppcheck/cppcheck_report_2.png)
+ ![img](cppcheck/cppcheck_report_3.png)
+
+
+### Najčešći problemi:
+
+1. Neinicijalizovani članovi u konstruktorima 
+2. Razlike u imenima argumenata
+3. Metode koje bi trebalo označiti kao `const`
+4. Nedostatak `explicit` u konstruktorima sa jednim argumentom
+  
+Ispravljanje navedenih problema bi doprinelo:
+
+- Povećanju robustnosti i stabilnosti koda  
+- Poboljšanju čitljvosti i održavanja koda  
+- Smanjenju potencijalnih grešaka pri izvršavnju programa
+
+
