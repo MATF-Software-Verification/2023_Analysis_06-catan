@@ -39,6 +39,7 @@ pip install lizard
 ---
 ## Zaključak:
 
+Sveukupni utisak dobijen analizom ovog projekta ukazuje na to da je projekat generalno dobro odrađen, ali i da postoji propust, tj. dolazi do heap korupcije prilikom oslobađanja memorije za GUI objekte, koje bi trebalo ispraviti. Ne postoji značajno curenje memorije, što ukazuje na odsustvo većih problema. Analiza je pokazala da ne postoji mnogo rizičnih funkcija i obrazaca, i da je sam kod projekta kvalitetno strukturiran i pregledan. Postoje funkcije koje zahtevaju refaktorisanje zbog svoje dužine i kompleksnosti, ali uglavnom modularnost je dobra i jasno je separisanje deklaracija od implementacija.
 
 ## Autor:
 Jovana Đurović, 1052/2023
