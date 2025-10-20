@@ -536,4 +536,203 @@ Hits po nivou rizika (Hits@level):
  Svaki "hit" ne znači stvarnu ranjivost — Flawfinder daje indikacije koje ipak treba ručno pregledati i razmotriti, ali Ispravljanje navedenih problema i primena preporuka iz izveštaja bi značajno doprinelo poboljšanju bezbednosti i robusnosti projekta.
 
 ---
+## Valgrind - Memcheck 
+
+**Memcheck** je alat koji se prilikom korišćenja Valgrind-a podrazumevano poziva. Koristi se za detektovanje memorijskih grešaka i sprovođenja analize nad mašinskim kodom. 
+Upotrebom *Memcheck*-a mogu se otkriti različite vrste problema, kao što su curenja memorije, pristup ili upisivanje vrednosti van opsega, korišćenje neinicijalizovanih vrednosti, pristup već oslobođenoj memoriji.
+
+Dodatne opcije koje su korišćene prilikom analize:
+- *--leak-check=full* : daje informacije o svim definitivno izgubljenim ili eventualno izgubljenim blokovima, uključujući i informacije o njihovoj alokaciji
+- *--track-origins=yes* : omogućava lakše pronalaženje dela programa u kom se nalazi memorijski propust (može znatno usporiti rad alata)
+-  *--show-lead-kinds=all* : prikazuje sve vrste curenja memorije u programu
+- *--log-file*: rezultati analize će biti upisani u `memcheck_results.txt` fajl
+
+### Instalacija Memchecka-a i pokretanje analize
+
+Na Linux sistemima, Valgrind se može instalirati komandom:
+
+```bash
+sudo apt update && sudo apt install valgrind
+```
+
+Nakon instalacije, kreiramo skriptu `run_memcheck.sh` koja automatski pokreće analizu. Rezultati se mogu videti pozivanjem komande `cat memcheck_results.txt` u terminalu.
+
+
+`run_cppcheck.sh`
+
+```bash
+set -xe
+
+EXEC_PATH="../../catan/src/build/Catan"
+
+REPORT_FILE="memcheck_results.txt"
+
+SUPP_FILE="suppressions.supp"
+
+if [ ! -f "$EXEC_PATH" ]; then
+    echo "Greska: izvrsni fajl nije pronadjen!"
+    exit 1
+fi
+
+echo "Pokrece se Valgrind Memcheck nad: $EXEC_PATH"
+echo "Rezultati se nalaze u: $REPORT_FILE"
+echo ""
+
+valgrind --tool=memcheck \
+         --track-origins=yes \
+         --leak-check=full \
+         --show-leak-kinds=all \
+         --log-file="$REPORT_FILE" \
+         "$EXEC_PATH"
+
+echo "Memcheck je uspesno zavrsen"
+```
+
+Pre nego što se skripta pokrene, potrebno joj je dodeliti izvršna prava:
+```bash
+chmod +x run_memcheck.sh
+```
+Skripta se pokreće komandom iz `valgrind/memcheck` foldera:
+```bash
+./run_memcheck.sh
+```
+
+---
+### Analiza dobijenih rezultata
+
+ Rezultati se mogu videti pozivanjem komande `cat memcheck_results.txt` u terminalu.
+
+ Delovi  izveštaja:
+
+![img](valgrind/memcheck/memcheck_results_1.png)
+![img](valgrind/memcheck/memcheck_results_2.png)
+![img](valgrind/memcheck/memcheck_results_3.png)
+
+Sam fajl `memcheck_results.txt` je veoma velikog kapaciteta, zato što sadrži rezultate nalik ovom, koji nam govore o „still reachable” blokovima memorije. Oni ne predstavljaju stvarna curenja memorije, već memoriju koja je još uvek dostupna u trenutku završetka programa, ali nije eksplicitno oslobođena (obično zato što je alocirana u globalnom kontekstu biblioteka).
+
+
+```bash
+==59962== 132,189 bytes in 110 blocks are still reachable in loss record 2,394 of 2,394
+==59962==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==59962==    by 0x400D283: _dl_new_object (dl-object.c:89)
+==59962==    by 0x4006E96: _dl_map_object_from_fd (dl-load.c:997)
+==59962==    by 0x400A61A: _dl_map_object (dl-load.c:2236)
+==59962==    by 0x400F514: openaux (dl-deps.c:64)
+==59962==    by 0x5EE3B47: _dl_catch_exception (dl-error-skeleton.c:208)
+==59962==    by 0x400F962: _dl_map_object_deps (dl-deps.c:248)
+==59962==    by 0x4015DAF: dl_open_worker (dl-open.c:571)
+==59962==    by 0x5EE3B47: _dl_catch_exception (dl-error-skeleton.c:208)
+==59962==    by 0x4015609: _dl_open (dl-open.c:837)
+==59962==    by 0x666034B: dlopen_doit (dlopen.c:66)
+==59962==    by 0x5EE3B47: _dl_catch_exception (dl-error-skeleton.c:208)
+==59962== 
+```
+
+Na samom kraju izveštaja imamo i *leak summary*, na osnovu kog vidimo da je 348B definitivno izgubljeno, a 1856B izgubljeno posredno, jer je ova memorija bila povezana sa objektima koji su već izgubljeni (npr. pokazivač unutar strukture koja je izgubljena). Ukupno je registrovano 435 grešaka raspoređenih u 11 različitih konteksta. Dve greške su potisnute, što znači da su ignorisane jer potiču iz sistemskih biblioteka.  
+
+Ukupno curenje memorije iznosi oko ~2 KB, što ne predstavlja veliki problem, ali svakako bi trebalo obratiti pažnju na mesta gde se alocira memorija pomoću `new` bez eksplicitnog `delete`.
+
+
+```bash
+==59962== LEAK SUMMARY:
+==59962==    definitely lost: 348 bytes in 3 blocks
+==59962==    indirectly lost: 1,856 bytes in 37 blocks
+==59962==      possibly lost: 0 bytes in 0 blocks
+==59962==    still reachable: 719,431 bytes in 11,839 blocks
+==59962==         suppressed: 0 bytes in 0 blocks
+==59962== 
+==59962== For lists of detected and suppressed errors, rerun with: -s
+==59962== ERROR SUMMARY: 435 errors from 11 contexts (suppressed: 2 from 2)
+```
+
+---
+
+## Valgrind – Massif
+
+**Massif** je alat za profajliranje hip memorije. Detektuje memoriju koja fizički nije iscurela, ali se ne upotrebljava i samim tim zauzima prostor koji bi mogao da bude bolje iskorišćen. Massif nam može reći i koliko memorije na hipu program koristi i tačnu liniju koda koja je zaslužna za njegovu alokaciju.
+
+---
+
+### Instalacija Massif-a i pokretanje analize
+
+Alat Massif se takodje nalazi u sklopu alata *Valgrind*, pa nije potrebna ponovna instalacija. 
+
+Za pokretanje analize koristi se sledeća skripta `run_massif.sh`:
+
+```bash
+#!/bin/bash
+set -xe
+
+EXEC_PATH="../../catan/src/build/Catan"
+REPORT_FILE="massif_results.log"
+OUT_FILE="massif.out.%p"
+
+if [ ! -f "$EXEC_PATH" ]; then
+    echo "Greska: izvrsni fajl nije pronadjen!"
+    exit 1
+fi
+
+echo "Pokrece se Valgrind Massif nad: $EXEC_PATH"
+echo "Log fajl: $REPORT_FILE"
+echo "Massif izlaz: $OUT_FILE"
+echo ""
+
+valgrind --tool=massif \
+         --heap=yes \
+         --time-unit=ms \
+         --log-file="$REPORT_FILE" \
+         --massif-out-file="$OUT_FILE" \
+         "$EXEC_PATH"
+
+echo "Massif profajliranje je zavrseno"
+echo ""
+echo "Za pregled koristiti komandu:"
+echo "ms_print massif.out.<PID> | less"
+```
+Pre nego što se skripta pokrene, potrebno joj je dodeliti izvršna prava:
+```bash
+chmod +x run_massif.sh
+```
+Skripta se pokreće komandom iz `valgrind/massif` foldera:
+```bash
+./run_massif.sh
+```
+
+Generisu se dva fajla `massif_results.log` i `massif_results.txt`. Rezultati Massif analize mogu se pregledati pomoću alata `ms_print`, koji generiše tabelu zauzeća memorije kroz vreme izvršavanja programa.
+
+
+---
+### Analiza dobijenih rezultata
+
+Rezultati se mogu videti pozivanjem komande `cat massif_results.txt` u terminalu.
+
+![img](valgrind/massif/massif_heap_error_1.png)
+
+![img](valgrind/massif/massif_heap_error_2.png)
+
+
+Primećujemo da je tokom pokretanja Massif-a, došlo je do ostećenja/korupcije heap metapodataka:
+
+```bash
+valgrind: m_mallocfree.c:305 (get_bszB_as_is): Assertion 'bszB_lo == bszB_hi' failed.
+Heap block lo/hi size mismatch: lo = 65, hi = 97.
+This is probably caused by your program erroneously writing past the
+end of a heap block and corrupting heap metadata.
+```
+
+Masif ne može da dovrši profajliranje jer je heap u tom trenutku kompromitovan. 
+Ako pogledamo dobijeni *stack trace*, on ukazuje na problem unutar destruktora klase `GUI_Node` i `Board`, kao i prilikom čišćenja `QGraphicsScene`, sto se poklapa i sa rezultatima prethodno primenjenih alata.
+
+```bash
+GUI_Node::~GUI_Node()
+Board::~Board()
+QGraphicsScene::~QGraphicsScene()
+MainWindow::~MainWindow()
+```
+
+To sugeriše da do greške dolazi prilikom oslobađanja memorije za GUI objekte i da problem može biti u nepravilnpm brisanju ili dvostrukom oslobađanju objekata. Treba detaljno proveriti `GUI_Node`, `Board` i sve `QGraphicsScene` objekte kako bi se sprečilo pisanje van alociranih blokova i koristiti pametne pokazivače (`std::unique_ptr` / `std::shared_ptr`) gde god je moguće.
+
+---
+
+
 

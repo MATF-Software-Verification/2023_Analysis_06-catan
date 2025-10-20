@@ -41,4 +41,6 @@ pip install lizard
 
 
 ## Autor:
-Jovana Djurović, 1052/2023
+Jovana Đurović, 1052/2023
+
+
